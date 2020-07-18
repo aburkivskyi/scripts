@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# This is a script for cloning repositories from github, gitlab, AUR
+# 
+# Author: Andrii Burkivskyi <aburkivskyi@outlook.com>
+
+##
+# Imports
+DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
+if [[ -f "$DIR/is-installed" ]]; then source "$DIR/is-installed"; fi
+
+RepoToClone="$1"
+is-installed git
+# if [[ ! is-installed "git) ]]; then
+	# echo 'Please, install git.'
+	# exit 1
+# fi
+# is-installed git
+function clonerepo() {
+	git clone https://github.com/"$RepoToClone".git
+}
+clonerepo
