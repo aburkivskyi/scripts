@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+APP=$1
+
+if [[ "$APP" != "" ]]; then
+    echo "Making temp dir."
+    PWD="$(mktemp -d)"
+    cd $PWD || exit 1
+    git clone https://aur.archlinux.org/${APP}.git
+    sleep 5s
+    PWD=$PWD/$APP
+    cd $PWD && echo $PWD || exit 1
+fi
+
+if [[ -x "$(command -v lsd)" ]]; then
+	lsd --tree
+else
+	ls --color=always --group-directories-first -lAh
+fi

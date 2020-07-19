@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# [ "$UID" = "root" ] || exit 1
+
+if [[ ! -x "$(command -v pigz)" ]]; then
+    pacman -Sy --noconfirm pigz
+fi
+
+if [[ ! -x "$(command -v pixz)" ]]; then
+    pacman -Sy --noconfirm pixz
+fi
+
+sed -i 's|COMPRESSGZ=(gzip|COMPRESSGZ=(pigz|g' /etc/makepkg.conf
+sed -i 's|COMPRESSXZ=(xz|COMPRESSXZ=(pixz|g' /etc/makepkg.conf
+sed -i 's|COMPRESSZST=(zstd -c -z -q -)|COMPRESSZST=(zstd -c -T0 -18 -)|g' /etc/makepkg.conf
+sed -i "s|PKGEXT='.pkg.tar.xz'|PKGEXT='.pkg.tar.zst'|g" /etc/makepkg.conf
